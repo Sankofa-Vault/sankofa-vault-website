@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
 import CircularProgress from '../components/CircularProgress';
 import SponsorCarousel from '../components/SponsorCarousel';
+import VideoModal from '../components/VideoModal';
 
 // Sponsor data for About page
 const sponsors = [
@@ -56,7 +57,8 @@ const About = () => {
                             <img src="assets/img/about/play-bg.png" alt="" />
                         </div>
                         <div className="about-play-btn position-absolute">
-                            <a className="text-uppercase video_box d-flex align-items-center justify-content-center" href="https://www.youtube.com/watch?v=bIoPkZRVll">Play</a>
+                            {/* Replaced invalid ID 'bIoPkZRVll' with working Home page video 'EmQDa99KC0c' for testing */}
+                            <VideoModal videoId="EmQDa99KC0c" className="text-uppercase video_box d-flex align-items-center justify-content-center">Play</VideoModal>
                         </div>
                     </div>
                     <div className="ori-about-counter-area">

@@ -5,6 +5,7 @@ import { initLegacyScripts } from '../utils/legacyScripts';
 import Marquee from '../components/Marquee';
 import SponsorCarousel from '../components/SponsorCarousel';
 import TestimonialCarousel from '../components/TestimonialCarousel';
+import VideoModal from '../components/VideoModal';
 
 // Sponsor data
 const sponsors = [
@@ -77,7 +78,7 @@ const Home = () => {
                                 <h1>WELCOME <span>TO THE</span></h1>
                                 <h1>VAULT <i className="fas fa-arrow-right"></i> </h1>
                                 <div className="slider-play-btn">
-                                    <a className="video_box d-flex align-items-center justify-content-center text-uppercase" href="https://www.youtube.com/watch?v=EmQDa99KC0c">PLAY</a>
+                                    <VideoModal videoId="EmQDa99KC0c" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
                                 </div>
                                 <div className="ori-slider-img position-absolute">
                                     <img src="assets/img/slider/slider-1.png" alt="" />
@@ -88,7 +89,7 @@ const Home = () => {
                             <div className="ori-slider-text text-center text-uppercase">
                                 <h1>where <span>heritage meets</span> innovation <i className="fas fa-arrow-right"></i></h1>
                                 <div className="slider-play-btn">
-                                    <a className="video_box d-flex align-items-center justify-content-center text-uppercase" href="https://www.youtube.com/watch?v=O0pLvLtoESc">PLAY</a>
+                                    <VideoModal videoId="O0pLvLtoESc" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
                                 </div>
                                 <div className="ori-slider-img position-absolute">
                                     <img src="assets/img/slider/slider-1.png" alt="" />
@@ -99,7 +100,7 @@ const Home = () => {
                             <div className="ori-slider-text text-center text-uppercase">
                                 <h1>connecting <span>eras</span> with tech and media <i className="fas fa-arrow-right"></i></h1>
                                 <div className="slider-play-btn">
-                                    <a className="video_box d-flex align-items-center justify-content-center text-uppercase" href="https://www.youtube.com/watch?v=O0pLvLtoESc">PLAY</a>
+                                    <VideoModal videoId="O0pLvLtoESc" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
                                 </div>
                                 <div className="ori-slider-img position-absolute">
                                     <img src="assets/img/slider/slider-1.png" alt="" />
