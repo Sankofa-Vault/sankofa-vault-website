@@ -1,6 +1,23 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
+import SponsorCarousel from '../components/SponsorCarousel';
+
+// Sponsor data for Mission page
+const sponsors = [
+    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
+    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
+    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
+    { image: 'assets/img/sponsor/sp4.png', alt: 'Sponsor 4' },
+    { image: 'assets/img/sponsor/sp5.png', alt: 'Sponsor 5' },
+    { image: 'assets/img/sponsor/sp6.png', alt: 'Sponsor 6' },
+    { image: 'assets/img/sponsor/sp10.png', alt: 'Sponsor 10' },
+    { image: 'assets/img/sponsor/sp11.png', alt: 'Sponsor 11' },
+    { image: 'assets/img/sponsor/sp12.png', alt: 'Sponsor 12' },
+    { image: 'assets/img/sponsor/sp7.png', alt: 'Sponsor 7' },
+    { image: 'assets/img/sponsor/sp20.png', alt: 'Sponsor 20' },
+    { image: 'assets/img/sponsor/sp14.png', alt: 'Sponsor 14' },
+];
 
 const Mission = () => {
     useEffect(() => {
@@ -154,22 +171,7 @@ const Mission = () => {
                         <h3><i></i> <span>Trusted by</span> <i></i> </h3>
                     </div>
                     <div className="ori-sponsor-content">
-                        <div className="ori-sponsor-slider">
-                            {[...Array(2)].flatMap(() => [
-                                "sp1.png", "sp2.png", "sp3.png", "sp4.png",
-                                "sp5.png", "sp1.png", "sp2.png", "sp3.png",
-                                "sp6.png", "sp10.png", "sp11.png", "sp12.png",
-                                "sp7.png", "sp20.png", "sp14.png"
-                            ]).map((img, i) => (
-                                <div className="ori-sponsor-item" key={i}>
-                                    <div className="ori-sponsor-img">
-                                        <a href="#">
-                                            <img src={`assets/img/sponsor/${img}`} alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <SponsorCarousel sponsors={sponsors} />
                     </div>
                 </div>
                 <div className="line_animation">

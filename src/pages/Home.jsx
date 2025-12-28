@@ -3,6 +3,31 @@ import { Link } from 'react-router-dom';
 
 import { initLegacyScripts } from '../utils/legacyScripts';
 import Marquee from '../components/Marquee';
+import SponsorCarousel from '../components/SponsorCarousel';
+import TestimonialCarousel from '../components/TestimonialCarousel';
+
+// Sponsor data
+const sponsors = [
+    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
+    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
+    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
+    { image: 'assets/img/sponsor/sp4.png', alt: 'Sponsor 4' },
+    { image: 'assets/img/sponsor/sp5.png', alt: 'Sponsor 5' },
+    { image: 'assets/img/sponsor/sp6.png', alt: 'Sponsor 6' },
+    { image: 'assets/img/sponsor/sp10.png', alt: 'Sponsor 10' },
+    { image: 'assets/img/sponsor/sp11.png', alt: 'Sponsor 11' },
+    { image: 'assets/img/sponsor/sp12.png', alt: 'Sponsor 12' },
+    { image: 'assets/img/sponsor/sp7.png', alt: 'Sponsor 7' },
+    { image: 'assets/img/sponsor/sp20.png', alt: 'Sponsor 20' },
+    { image: 'assets/img/sponsor/sp14.png', alt: 'Sponsor 14' },
+];
+
+// Testimonial data
+const testimonials = [
+    { text: '"They completely reimagined our website and branding — and the results speak for themselves. We have seen a huge boost in engagement and sales."' },
+    { text: '"They brought fresh ideas to the table and executed them flawlessly. We finally feel like we are reaching the right audience."' },
+    { text: '"Our campaigns have never performed better. The content was sharp, on-brand, and delivered results beyond our targets."' },
+];
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState('home');
@@ -30,17 +55,7 @@ const Home = () => {
 
         return () => {
             clearTimeout(timer);
-
-            // Cleanup sliders on unmount to prevent duplicates/errors on re-mount
-            if (window.jQuery) {
-                try {
-                    window.jQuery('.ori-sponsor-slider').slick('unslick');
-                    window.jQuery('.ori-testimonial-slider-1').slick('unslick');
-                    window.jQuery('.ori-slider-wrap-1').slick('unslick');
-                } catch {
-                    // Ignore error if not initialized
-                }
-            }
+            // Note: Swiper handles its own cleanup, no manual jQuery cleanup needed
         };
     }, []);
 
@@ -186,17 +201,7 @@ const Home = () => {
                         <h3><i></i> <span>Trusted by</span> <i></i> </h3>
                     </div>
                     <div className="ori-sponsor-content">
-                        <div className="ori-sponsor-slider">
-                            {[1, 2, 3, 4, 5, 1, 2, 3, 6, 10, 11, 12, 7, 20, 14].map((num, i) => (
-                                <div className="ori-sponsor-item" key={i}>
-                                    <div className="ori-sponsor-img">
-                                        <a href="#">
-                                            <img src={`assets/img/sponsor/sp${num}.png`} alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <SponsorCarousel sponsors={sponsors} />
                     </div>
                 </div>
                 <div className="line_animation">
@@ -582,33 +587,7 @@ const Home = () => {
                         <div className="ori-testimonial-title text-center text-uppercase">
                             <h3>What our Client say</h3>
                         </div>
-                        <div className="ori-testimonial-slider-1">
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>"They completely reimagined our website and branding — and the results speak for themselves. We’ve seen a huge boost in engagement and sales."</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>“They brought fresh ideas to the table and executed them flawlessly. We finally feel like we're reaching the right audience.”</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>"Our campaigns have never performed better. The content was sharp, on-brand, and delivered results beyond our targets."</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel_nav">
-                            <button type="button" className="testi-left_arrow"><img src="assets/img/vector/prev.png" alt="" /></button>
-                            <button type="button" className="testi-right_arrow"><img src="assets/img/vector/next.png" alt="" /></button>
-                        </div>
+                        <TestimonialCarousel testimonials={testimonials} />
                     </div>
                 </div>
                 <div className="line_animation">

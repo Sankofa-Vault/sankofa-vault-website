@@ -2,6 +2,19 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
 import CircularProgress from '../components/CircularProgress';
+import SponsorCarousel from '../components/SponsorCarousel';
+
+// Sponsor data for About page
+const sponsors = [
+    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
+    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
+    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
+    { image: 'assets/img/sponsor/sp4.png', alt: 'Sponsor 4' },
+    { image: 'assets/img/sponsor/sp5.png', alt: 'Sponsor 5' },
+    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
+    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
+    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
+];
 
 const About = () => {
     useEffect(() => {
@@ -188,17 +201,7 @@ const About = () => {
                         <h3><i></i> <span>Trusted by</span><i></i></h3>
                     </div>
                     <div className="ori-sponsor-content">
-                        <div className="ori-sponsor-slider">
-                            {[1, 2, 3, 4, 5, 1, 2, 3].map((num, i) => (
-                                <div className="ori-sponsor-item" key={i}>
-                                    <div className="ori-sponsor-img">
-                                        <a href="#">
-                                            <img src={`assets/img/sponsor/sp${num}.png`} alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <SponsorCarousel sponsors={sponsors} />
                     </div>
                 </div>
                 <div className="line_animation">
