@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
+import CircularProgress from '../components/CircularProgress';
 
 const About = () => {
     useEffect(() => {
@@ -86,40 +87,16 @@ const About = () => {
                     </div>
                     <div className="ori-about-circle-progress-item-wrap d-flex align-items-center justify-content-between">
                         <div className="ori-about-circle-progress-item">
-                            <div className="counter-boxed text-center headline position-relative">
-                                <div className="graph-outer">
-                                    <input type="text" className="dial" data-fgcolor="#FF7425" data-bgcolor="#fff" data-width="180" data-height="180" data-linecap="round" defaultValue="85" />
-                                    <div className="inner-text count-box"><span className="count-text" data-stop="85" data-speed="4500"></span>%</div>
-                                </div>
-                                <h3 className="text-uppercase">fRONTEND</h3>
-                            </div>
+                            <CircularProgress value={85} label="Frontend" />
                         </div>
                         <div className="ori-about-circle-progress-item">
-                            <div className="counter-boxed text-center headline position-relative">
-                                <div className="graph-outer">
-                                    <input type="text" className="dial" data-fgcolor="#FF7425" data-bgcolor="#fff" data-width="180" data-height="180" data-linecap="round" defaultValue="90" />
-                                    <div className="inner-text count-box"><span className="count-text" data-stop="90" data-speed="4500"></span>%</div>
-                                </div>
-                                <h3 className="text-uppercase">backend</h3>
-                            </div>
+                            <CircularProgress value={90} label="Backend" />
                         </div>
                         <div className="ori-about-circle-progress-item">
-                            <div className="counter-boxed text-center headline position-relative">
-                                <div className="graph-outer">
-                                    <input type="text" className="dial" data-fgcolor="#FF7425" data-bgcolor="#fff" data-width="180" data-height="180" data-linecap="round" defaultValue="94" />
-                                    <div className="inner-text count-box"><span className="count-text" data-stop="70" data-speed="4500">92</span>%</div>
-                                </div>
-                                <h3 className="text-uppercase">mobile development</h3>
-                            </div>
+                            <CircularProgress value={94} label="Mobile Development" />
                         </div>
                         <div className="ori-about-circle-progress-item">
-                            <div className="counter-boxed text-center headline position-relative">
-                                <div className="graph-outer">
-                                    <input type="text" className="dial" data-fgcolor="#FF7425" data-bgcolor="#fff" data-width="180" data-height="180" data-linecap="round" defaultValue="92" />
-                                    <div className="inner-text count-box"><span className="count-text" data-stop="92" data-speed="4500">91</span>%</div>
-                                </div>
-                                <h3 className="text-uppercase">web development</h3>
-                            </div>
+                            <CircularProgress value={92} label="Web Development" />
                         </div>
                     </div>
                 </div>

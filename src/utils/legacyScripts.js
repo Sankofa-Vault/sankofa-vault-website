@@ -32,8 +32,6 @@ export const initSlickSlider = () => {
             slidesToScroll: 1,
         });
     }
-
-    // Re-init other sliders if needed (extracted from script.js as needed)
 };
 
 export const initWow = () => {
@@ -45,18 +43,6 @@ export const initWow = () => {
             mobile: true,
             live: true
         }).init();
-    }
-};
-
-export const initKnob = () => {
-    if (!window.jQuery) return;
-    const $ = window.jQuery;
-    if ($('.dial').length) {
-        $('.dial').knob({
-            'format': function (value) {
-                return value + '%';
-            }
-        });
     }
 };
 
@@ -79,58 +65,14 @@ export const initMainSlider = () => {
     }
 };
 
-export const destroyTextScroll = () => {
-    if (!window.jQuery) return;
-    const $ = window.jQuery;
-    // The marquee plugin wraps content in .js-marquee-wrapper
-    // We need to unwrap it to restore original state
-    $('.ori-text-scroll-item-1, .ori-text-scroll-item-2').each(function () {
-        const $el = $(this);
-        // Check if marquee was initialized
-        if ($el.find('.js-marquee-wrapper').length) {
-            // Get original content from first .js-marquee
-            const $originalContent = $el.find('.js-marquee').first().children().clone();
-            $el.empty().append($originalContent);
-        }
-    });
-};
-
-export const initTextScroll = () => {
-    if (!window.jQuery) return;
-    const $ = window.jQuery;
-
-    // Only init if marquee plugin exists and element hasn't been initialized
-    if (typeof $.fn.marquee === 'undefined') return;
-
-    if ($('.ori-text-scroll-item-1').length && !$('.ori-text-scroll-item-1').find('.js-marquee-wrapper').length) {
-        $('.ori-text-scroll-item-1').marquee({
-            speed: 50,
-            gap: 20,
-            delayBeforeStart: 0,
-            direction: 'left',
-            duplicated: true,
-            pauseOnHover: true,
-            startVisible: true,
-        });
-    }
-
-    if ($('.ori-text-scroll-item-2').length && !$('.ori-text-scroll-item-2').find('.js-marquee-wrapper').length) {
-        $('.ori-text-scroll-item-2').marquee({
-            speed: 50,
-            gap: 20,
-            delayBeforeStart: 0,
-            direction: 'right',
-            duplicated: true,
-            pauseOnHover: true,
-            startVisible: true,
-        });
-    }
-};
+// Note: initKnob and initTextScroll have been removed
+// They are now replaced by React components:
+// - CircularProgress.jsx (replaces jQuery Knob)
+// - Marquee.jsx (replaces jQuery Marquee)
 
 export const initLegacyScripts = () => {
     initSlickSlider();
     initMainSlider();
     initWow();
-    initKnob();
-    initTextScroll();
 };
+

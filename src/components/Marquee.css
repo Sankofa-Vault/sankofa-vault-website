@@ -1,0 +1,46 @@
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.marquee-content {
+    display: inline-flex;
+    align-items: center;
+    will-change: transform;
+}
+
+/* Left scroll animation */
+.marquee-left {
+    animation: scroll-left 20s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Right scroll animation */
+.marquee-right {
+    animation: scroll-right 20s linear infinite;
+}
+
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Pause on hover */
+.marquee-pause-hover:hover {
+    animation-play-state: paused;
+}

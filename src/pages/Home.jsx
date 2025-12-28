@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { initLegacyScripts, destroyTextScroll } from '../utils/legacyScripts';
+import { initLegacyScripts } from '../utils/legacyScripts';
+import Marquee from '../components/Marquee';
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState('home');
@@ -29,15 +30,14 @@ const Home = () => {
 
         return () => {
             clearTimeout(timer);
-            // Cleanup marquee before unmount
-            destroyTextScroll();
+
             // Cleanup sliders on unmount to prevent duplicates/errors on re-mount
             if (window.jQuery) {
                 try {
                     window.jQuery('.ori-sponsor-slider').slick('unslick');
                     window.jQuery('.ori-testimonial-slider-1').slick('unslick');
                     window.jQuery('.ori-slider-wrap-1').slick('unslick');
-                } catch (e) {
+                } catch {
                     // Ignore error if not initialized
                 }
             }
@@ -484,12 +484,12 @@ const Home = () => {
             {/* Start of Text scroll section */}
             <section id="ori-text-scroll-1" className="ori-text-scroll-section-1 position-relative">
                 <div className="ori-text-scroll-content">
-                    <div className="ori-text-scroll-item-1 text-uppercase">
+                    <Marquee direction="left" speed={25} className="text-uppercase">
                         <h3>Creative Digital <span>Studio</span></h3>
                         <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
                         <h3>Creative Digital <span>Agency</span></h3>
                         <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
-                    </div>
+                    </Marquee>
                 </div>
                 <div className="line_animation">
                     {[...Array(8)].map((_, i) => <div className="line_area" key={i}></div>)}
@@ -620,12 +620,12 @@ const Home = () => {
             {/* Start of Text scroll section */}
             <section id="ori-text-scroll-2" className="ori-text-scroll-section-2 position-relative">
                 <div className="ori-text-scroll-content">
-                    <div className="ori-text-scroll-item-2 clearfix text-uppercase">
+                    <Marquee direction="right" speed={25} className="text-uppercase">
                         <h3>Creative Digital <span>Studio</span></h3>
                         <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
                         <h3>Creative Digital <span>Agency</span></h3>
                         <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
-                    </div>
+                    </Marquee>
                 </div>
                 <div className="line_animation">
                     {[...Array(8)].map((_, i) => <div className="line_area" key={i}></div>)}
