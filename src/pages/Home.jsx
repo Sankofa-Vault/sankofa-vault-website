@@ -2,26 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { initLegacyScripts } from '../utils/legacyScripts';
+import { useContentData, useCommonData } from '../hooks/useContentData';
+import LoadingSpinner from '../components/LoadingSpinner';
 import Marquee from '../components/Marquee';
 import SponsorCarousel from '../components/SponsorCarousel';
 import TestimonialCarousel from '../components/TestimonialCarousel';
 import VideoModal from '../components/VideoModal';
 
-// Sponsor data
-const sponsors = [
-    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
-    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
-    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
-    { image: 'assets/img/sponsor/sp4.png', alt: 'Sponsor 4' },
-    { image: 'assets/img/sponsor/sp5.png', alt: 'Sponsor 5' },
-    { image: 'assets/img/sponsor/sp6.png', alt: 'Sponsor 6' },
-    { image: 'assets/img/sponsor/sp10.png', alt: 'Sponsor 10' },
-    { image: 'assets/img/sponsor/sp11.png', alt: 'Sponsor 11' },
-    { image: 'assets/img/sponsor/sp12.png', alt: 'Sponsor 12' },
-    { image: 'assets/img/sponsor/sp7.png', alt: 'Sponsor 7' },
-    { image: 'assets/img/sponsor/sp20.png', alt: 'Sponsor 20' },
-    { image: 'assets/img/sponsor/sp14.png', alt: 'Sponsor 14' },
-];
+// Sponsor data now comes from API (common.json)
 
 // Testimonial data
 const testimonials = [
@@ -33,32 +21,57 @@ const testimonials = [
 const Home = () => {
     const [activeTab, setActiveTab] = useState('home');
 
+    // Fetch page content and common data from API
+    const { data: pageData, loading: pageLoading, error: pageError } = useContentData('home');
+    const { data: commonData, loading: commonLoading } = useCommonData();
+
     useEffect(() => {
-        // Initialize legacy scripts (Slick slider, Wow.js, etc.)
-        initLegacyScripts();
+        // Only initialize scripts after data is loaded
+        if (!pageLoading && !commonLoading) {
+            initLegacyScripts();
 
-        // Trigger resize and scroll event to force plugins (WOW, Slick) to recalculate
-        // layouts after a short delay since React keeps DOM elements in memory
-        const timer = setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            window.dispatchEvent(new Event('scroll'));
-        }, 300);
+            // Trigger resize and scroll event to force plugins (WOW, Slick) to recalculate
+            // layouts after a short delay since React keeps DOM elements in memory
+            const timer = setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+                window.dispatchEvent(new Event('scroll'));
+            }, 300);
 
-        // Load Elfsight script
-        const scriptId = 'elfsight-platform-script';
-        if (!document.getElementById(scriptId)) {
-            const script = document.createElement('script');
-            script.src = "https://elfsightcdn.com/platform.js";
-            script.id = scriptId;
-            script.async = true;
-            document.body.appendChild(script);
+            // Load Elfsight script
+            const scriptId = 'elfsight-platform-script';
+            if (!document.getElementById(scriptId)) {
+                const script = document.createElement('script');
+                script.src = "https://elfsightcdn.com/platform.js";
+                script.id = scriptId;
+                script.async = true;
+                document.body.appendChild(script);
+            }
+
+            return () => {
+                clearTimeout(timer);
+                // Note: Swiper handles its own cleanup, no manual jQuery cleanup needed
+            };
         }
+    }, [pageLoading, commonLoading]);
 
-        return () => {
-            clearTimeout(timer);
-            // Note: Swiper handles its own cleanup, no manual jQuery cleanup needed
-        };
-    }, []);
+    // Show loading spinner while data is being fetched
+    if (pageLoading || commonLoading) {
+        return <LoadingSpinner message="Loading page content..." />;
+    }
+
+    // Handle error state
+    if (pageError) {
+        return (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#fff' }}>
+                <h2>Unable to load page content</h2>
+                <p>{pageError}</p>
+            </div>
+        );
+    }
+
+    // Extract data from API response
+    const { hero, services, about, servicesTab, marquee } = pageData;
+    const { sponsors } = commonData;
 
     return (
         <div className="content-wrapper" style={{ minHeight: '100vh', overflow: 'hidden' }}>
@@ -67,46 +80,39 @@ const Home = () => {
                 <div className="ori-slider-content-wrapper-1 postion-relative">
                     <div className="ori-slider-social position-absolute text-uppercase ul-li">
                         <ul>
-                            <li><a href="#"><i className="fab fa-facebook-f"></i> Facebook</a></li>
-                            <li><a href="#"><i className="fab fa-instagram"></i> Instagram</a></li>
-                            <li><a href="#"><i className="fab fa-tiktok"></i>tiktok</a></li>
+                            {hero.social.map((social, index) => (
+                                <li key={index}>
+                                    <a href={social.url}>
+                                        <i className={social.icon}></i> {social.label}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="ori-slider-wrap-1">
-                        <div className="ori-slider-content-1 position-relative">
-                            <div className="ori-slider-text text-center text-uppercase">
-                                <h1>WELCOME <span>TO THE</span></h1>
-                                <h1>VAULT <i className="fas fa-arrow-right"></i> </h1>
-                                <div className="slider-play-btn">
-                                    <VideoModal videoId="EmQDa99KC0c" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
-                                </div>
-                                <div className="ori-slider-img position-absolute">
-                                    <img src="assets/img/slider/slider-1.png" alt="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ori-slider-content-1 position-relative">
-                            <div className="ori-slider-text text-center text-uppercase">
-                                <h1>where <span>heritage meets</span> innovation <i className="fas fa-arrow-right"></i></h1>
-                                <div className="slider-play-btn">
-                                    <VideoModal videoId="O0pLvLtoESc" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
-                                </div>
-                                <div className="ori-slider-img position-absolute">
-                                    <img src="assets/img/slider/slider-1.png" alt="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ori-slider-content-1 position-relative">
-                            <div className="ori-slider-text text-center text-uppercase">
-                                <h1>connecting <span>eras</span> with tech and media <i className="fas fa-arrow-right"></i></h1>
-                                <div className="slider-play-btn">
-                                    <VideoModal videoId="O0pLvLtoESc" className="video_box d-flex align-items-center justify-content-center text-uppercase">PLAY</VideoModal>
-                                </div>
-                                <div className="ori-slider-img position-absolute">
-                                    <img src="assets/img/slider/slider-1.png" alt="" />
+                        {hero.slides.map((slide, index) => (
+                            <div key={index} className="ori-slider-content-1 position-relative">
+                                <div className="ori-slider-text text-center text-uppercase">
+                                    {slide.title && <h1 dangerouslySetInnerHTML={{
+                                        __html: slide.title.replace(/(\w+\s+\w+)$/, '<span>$1</span>')
+                                    }} />}
+                                    {slide.subtitle && (
+                                        <h1>{slide.subtitle} <i className="fas fa-arrow-right"></i> </h1>
+                                    )}
+                                    <div className="slider-play-btn">
+                                        <VideoModal
+                                            videoId={slide.videoId}
+                                            className="video_box d-flex align-items-center justify-content-center text-uppercase"
+                                        >
+                                            PLAY
+                                        </VideoModal>
+                                    </div>
+                                    <div className="ori-slider-img position-absolute">
+                                        <img src={slide.image} alt="" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
                     <div className="line_animation">
                         <div className="line_area"></div>
@@ -120,7 +126,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="ori-slider-scroll position-absolute text-uppercase">
-                    <span>SCrool </span>
+                    <span>{hero.scrollText} </span>
                     <div className="scroll-mouse">
                         <i className="fal fa-mouse"></i>
                     </div>
@@ -135,59 +141,33 @@ const Home = () => {
                     <div className="container">
                         <div className="ori-service-top-content-1 d-flex justify-content-between align-items-center">
                             <div className="ori-section-title-1 text-uppercase wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
-                                <h2>Modern digital <span> design experience</span></h2>
+                                <h2 dangerouslySetInnerHTML={{
+                                    __html: services.title.replace(/(\w+\s+\w+)$/, '<span>$1</span>')
+                                }} />
                             </div>
                             <div className="ori-btn-1 text-uppercase wow fadeInRight" data-wow-delay="300ms" data-wow-duration="1500ms">
-                                <Link to="/service">Our services</Link>
+                                <Link to={services.buttonLink}>{services.buttonText}</Link>
                             </div>
                         </div>
                         <div className="ori-service-content-1">
                             <div className="row">
-                                <div className="col-lg-4 wow fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
-                                    <div className="ori-service-inner-item position-relative">
-                                        <div className="ori-service-more position-absolute">
-                                            <Link to="/about"><i className="fas fa-arrow-right"></i></Link>
-                                        </div>
-                                        <div className="ori-service-img-title position-relative">
-                                            <div className="ori-service-img">
-                                                <img src="assets/img/service/ser1.png" alt="" />
+                                {services.cards.map((card, index) => (
+                                    <div key={index} className="col-lg-4 wow fadeInUp" data-wow-delay={`${400 + (index * 200)}ms`} data-wow-duration="1500ms">
+                                        <div className="ori-service-inner-item position-relative">
+                                            <div className="ori-service-more position-absolute">
+                                                <Link to={card.link}><i className="fas fa-arrow-right"></i></Link>
                                             </div>
-                                            <div className="ori-service-title text-center position-absolute">
-                                                <h3>About us <i className="fal fa-arrow-right"></i></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 wow fadeInUp" data-wow-delay="600ms" data-wow-duration="1500ms">
-                                    <div className="ori-service-inner-item position-relative">
-                                        <div className="ori-service-more position-absolute">
-                                            <Link to="/mission"><i className="fas fa-arrow-right"></i></Link>
-                                        </div>
-                                        <div className="ori-service-img-title position-relative">
-                                            <div className="ori-service-img">
-                                                <img src="assets/img/service/ser2.jpg" alt="" />
-                                            </div>
-                                            <div className="ori-service-title text-center position-absolute">
-                                                <h3>Our Mission <i className="fal fa-arrow-right"></i></h3>
+                                            <div className="ori-service-img-title position-relative">
+                                                <div className="ori-service-img">
+                                                    <img src={card.image} alt={card.title} />
+                                                </div>
+                                                <div className="ori-service-title text-center position-absolute">
+                                                    <h3>{card.title} <i className="fal fa-arrow-right"></i></h3>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-lg-4 wow fadeInUp" data-wow-delay="800ms" data-wow-duration="1500ms">
-                                    <div className="ori-service-inner-item position-relative">
-                                        <div className="ori-service-more position-absolute">
-                                            <Link to="/service"><i className="fas fa-arrow-right"></i></Link>
-                                        </div>
-                                        <div className="ori-service-img-title position-relative">
-                                            <div className="ori-service-img">
-                                                <img src="assets/img/service/ser3.png" alt="" />
-                                            </div>
-                                            <div className="ori-service-title text-center position-absolute">
-                                                <h3>Our Approach <i className="fal fa-arrow-right"></i></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -491,10 +471,12 @@ const Home = () => {
             <section id="ori-text-scroll-1" className="ori-text-scroll-section-1 position-relative">
                 <div className="ori-text-scroll-content">
                     <Marquee direction="left" speed={25} className="text-uppercase">
-                        <h3>Creative Digital <span>Studio</span></h3>
-                        <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
-                        <h3>Creative Digital <span>Agency</span></h3>
-                        <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
+                        {marquee.items.map((item, index) => (
+                            <React.Fragment key={index}>
+                                <h3>{item.includes('vault') ? <>{item.split('vault')[0]}<span>vault</span></> : item}</h3>
+                                <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
+                            </React.Fragment>
+                        ))}
                     </Marquee>
                 </div>
                 <div className="line_animation">
@@ -601,10 +583,12 @@ const Home = () => {
             <section id="ori-text-scroll-2" className="ori-text-scroll-section-2 position-relative">
                 <div className="ori-text-scroll-content">
                     <Marquee direction="right" speed={25} className="text-uppercase">
-                        <h3>Creative Digital <span>Studio</span></h3>
-                        <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
-                        <h3>Creative Digital <span>Agency</span></h3>
-                        <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
+                        {marquee.items.map((item, index) => (
+                            <React.Fragment key={index}>
+                                <h3>{item.includes('vault') ? <>{item.split('vault')[0]}<span>vault</span></> : item}</h3>
+                                <span className="ori-text-scroll-icon"><i className="fas fa-star"></i></span>
+                            </React.Fragment>
+                        ))}
                     </Marquee>
                 </div>
                 <div className="line_animation">

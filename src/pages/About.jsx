@@ -1,36 +1,58 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
+import { useContentData, useCommonData } from '../hooks/useContentData';
+import LoadingSpinner from '../components/LoadingSpinner';
 import CircularProgress from '../components/CircularProgress';
 import SponsorCarousel from '../components/SponsorCarousel';
 import VideoModal from '../components/VideoModal';
 
-// Sponsor data for About page
-const sponsors = [
-    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
-    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
-    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
-    { image: 'assets/img/sponsor/sp4.png', alt: 'Sponsor 4' },
-    { image: 'assets/img/sponsor/sp5.png', alt: 'Sponsor 5' },
-    { image: 'assets/img/sponsor/sp1.png', alt: 'Sponsor 1' },
-    { image: 'assets/img/sponsor/sp2.png', alt: 'Sponsor 2' },
-    { image: 'assets/img/sponsor/sp3.png', alt: 'Sponsor 3' },
-];
+// Sponsor data now comes from API (common.json)
 
 const About = () => {
+    // Fetch page content and common data from API
+    const { data: pageData, loading: pageLoading, error: pageError } = useContentData('about');
+    const { data: commonData, loading: commonLoading } = useCommonData();
+
     useEffect(() => {
-        initLegacyScripts();
-    }, []);
+        // Only initialize scripts after data is loaded
+        if (!pageLoading && !commonLoading) {
+            initLegacyScripts();
+        }
+    }, [pageLoading, commonLoading]);
+
+    // Show loading spinner while data is being fetched
+    if (pageLoading || commonLoading) {
+        return <LoadingSpinner message="Loading page content..." />;
+    }
+
+    // Handle error state
+    if (pageError) {
+        return (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#fff' }}>
+                <h2>Unable to load page content</h2>
+                <p>{pageError}</p>
+            </div>
+        );
+    }
+
+    // Extract data from API response
+    const { breadcrumbs, hero, stats, skills, team, sponsorSection } = pageData;
+    const { sponsors } = commonData;
+
     return (
         <div className="content-wrapper" style={{ minHeight: '100vh', overflow: 'hidden' }}>
             {/* Start of Breadcrumbs section */}
-            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background="assets/img/bg/bread-bg.png">
+            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background={breadcrumbs.background}>
                 <div className="container">
                     <div className="ori-breadcrumb-content text-center ul-li">
-                        <h1>About Us</h1>
+                        <h1>{breadcrumbs.title}</h1>
                         <ul>
-                            <li><Link to="/">home</Link></li>
-                            <li>About Us</li>
+                            {breadcrumbs.links.map((link, index) => (
+                                <li key={index}>
+                                    {link.path ? <Link to={link.path}>{link.label}</Link> : link.label}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -45,40 +67,29 @@ const About = () => {
                 <div className="container">
                     <div className="ori-about-play-top-content d-flex justify-content-between align-items-center">
                         <div className="ori-inner-section-title">
-                            <span className="sub-title text-uppercase">About us</span>
-                            <h2>Bridging the Past, Present & Future through Multimedia & Technology</h2>
+                            <span className="sub-title text-uppercase">{hero.subtitle}</span>
+                            <h2>{hero.title}</h2>
                         </div>
                         <div className="ori-about-play-top-text">
-                            Sankofa Vault is a creative initiative that blends cultural heritage with modern technology to inspire, educate, and empower. Rooted in the Sankofa principle—looking back to retrieve what is valuable—the project uses multimedia tools such as digital storytelling and video to preserve tradition while embracing innovation. It seeks to amplify voices, celebrate history, and build a legacy for future generations. More than a brand, Sankofa Vault is a movement inviting creatives to use today’s technology to tell timeless stories and shape a meaningful future.
+                            {hero.description}
                         </div>
                     </div>
                     <div className="ori-about-play-area position-relative">
                         <div className="ori-about-play-img">
-                            <img src="assets/img/about/play-bg.png" alt="" />
+                            <img src={hero.image} alt="" />
                         </div>
                         <div className="about-play-btn position-absolute">
-                            {/* Replaced invalid ID 'bIoPkZRVll' with working Home page video 'EmQDa99KC0c' for testing */}
-                            <VideoModal videoId="EmQDa99KC0c" className="text-uppercase video_box d-flex align-items-center justify-content-center">Play</VideoModal>
+                            <VideoModal videoId={hero.videoId} className="text-uppercase video_box d-flex align-items-center justify-content-center">Play</VideoModal>
                         </div>
                     </div>
                     <div className="ori-about-counter-area">
                         <div className="ori-about-counter-item-wrap d-flex justify-content-between">
-                            <div className="ori-about-counter-item pera-content">
-                                <h3><span className="counter">15</span>+</h3>
-                                <p className="text-uppercase"><span>//</span> YEARS EXPERIENCE</p>
-                            </div>
-                            <div className="ori-about-counter-item pera-content">
-                                <h3><span className="counter">800&nbsp;</span>+</h3>
-                                <p className="text-uppercase"><span>//</span> PROJECT FINISHED</p>
-                            </div>
-                            <div className="ori-about-counter-item pera-content">
-                                <h3><span className="counter">3000&nbsp;</span>+</h3>
-                                <p className="text-uppercase"><span>//</span> social media RECOGNITION</p>
-                            </div>
-                            <div className="ori-about-counter-item pera-content">
-                                <h3><span className="counter">500</span>+</h3>
-                                <p className="text-uppercase"><span>//</span> HAPPY CLIENTS</p>
-                            </div>
+                            {stats.map((stat, index) => (
+                                <div key={index} className="ori-about-counter-item pera-content">
+                                    <h3><span className="counter">{stat.value}</span>{stat.suffix}</h3>
+                                    <p className="text-uppercase"><span>//</span> {stat.label}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -93,26 +104,19 @@ const About = () => {
                 <div className="container">
                     <div className="ori-circle-progress-top-content d-flex justify-content-between align-items-center">
                         <div className="ori-inner-section-title">
-                            <span className="sub-title text-uppercase">why choose us</span>
-                            <h2>Unlock Revenue Growth for Your Business</h2>
+                            <span className="sub-title text-uppercase">{skills.subtitle}</span>
+                            <h2>{skills.title}</h2>
                         </div>
                         <div className="ori-circle-progress-btn">
-                            <Link to="/service">See Our Service<i className="fal fa-arrow-right"></i></Link>
+                            <Link to={skills.buttonLink}>{skills.buttonText}<i className="fal fa-arrow-right"></i></Link>
                         </div>
                     </div>
                     <div className="ori-about-circle-progress-item-wrap d-flex align-items-center justify-content-between">
-                        <div className="ori-about-circle-progress-item">
-                            <CircularProgress value={85} label="Frontend" />
-                        </div>
-                        <div className="ori-about-circle-progress-item">
-                            <CircularProgress value={90} label="Backend" />
-                        </div>
-                        <div className="ori-about-circle-progress-item">
-                            <CircularProgress value={94} label="Mobile Development" />
-                        </div>
-                        <div className="ori-about-circle-progress-item">
-                            <CircularProgress value={92} label="Web Development" />
-                        </div>
+                        {skills.items.map((skill, index) => (
+                            <div key={index} className="ori-about-circle-progress-item">
+                                <CircularProgress value={skill.value} label={skill.label} />
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className="line_animation">
@@ -127,10 +131,12 @@ const About = () => {
                     <div className="container">
                         <div className="ori-team-top-content-1 d-flex justify-content-between align-items-center">
                             <div className="ori-section-title-1 text-uppercase">
-                                <h2>Meet our team of <span>professional</span></h2>
+                                <h2 dangerouslySetInnerHTML={{
+                                    __html: team.title.replace(/(\w+\s+\w+)$/, '<span>$1</span>')
+                                }} />
                             </div>
                             <div className="ori-btn-1 text-uppercase">
-                                <Link to="/team">all Team Member</Link>
+                                <Link to={team.buttonLink}>{team.buttonText}</Link>
                             </div>
                         </div>
                         <div className="ori-team-content-1">
@@ -200,7 +206,7 @@ const About = () => {
             <section id="ori-sponsor-1" className="ori-sponsor-section-1 inner-sponsor position-relative">
                 <div className="container">
                     <div className="ori-sponsor-title text-uppercase text-center">
-                        <h3><i></i> <span>Trusted by</span><i></i></h3>
+                        <h3><i></i> <span>{sponsorSection.title}</span><i></i></h3>
                     </div>
                     <div className="ori-sponsor-content">
                         <SponsorCarousel sponsors={sponsors} />
