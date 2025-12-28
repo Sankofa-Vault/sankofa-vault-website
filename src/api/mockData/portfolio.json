@@ -1,0 +1,140 @@
+{
+    "breadcrumbs": {
+        "title": "Portfolio",
+        "background": "/assets/img/bg/bread-bg.png",
+        "links": [
+            {
+                "label": "HOME",
+                "path": "/"
+            },
+            {
+                "label": "Portfolio Grid",
+                "path": null
+            }
+        ]
+    },
+    "filters": [
+        {
+            "id": "all",
+            "label": "see all"
+        },
+        {
+            "id": 1,
+            "label": "Sankofa Moments"
+        },
+        {
+            "id": 2,
+            "label": "Media Marketing"
+        },
+        {
+            "id": 3,
+            "label": "Web & Apps"
+        },
+        {
+            "id": 4,
+            "label": "Systems"
+        },
+        {
+            "id": 5,
+            "label": "Designs"
+        }
+    ],
+    "portfolioItems": [
+        {
+            "id": 1,
+            "categories": [
+                1,
+                3,
+                4
+            ],
+            "image": "/assets/img/service/ser1.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 2,
+            "categories": [
+                2,
+                5,
+                4
+            ],
+            "image": "/assets/img/service/ser4.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 3,
+            "categories": [
+                3,
+                4
+            ],
+            "image": "/assets/img/service/ser3.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 4,
+            "categories": [
+                2,
+                4
+            ],
+            "image": "/assets/img/project/ser6.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 5,
+            "categories": [
+                1,
+                3
+            ],
+            "image": "/assets/img/project/pro5.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 6,
+            "categories": [
+                1,
+                2
+            ],
+            "image": "/assets/img/project/pro6.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 7,
+            "categories": [
+                2,
+                3,
+                5
+            ],
+            "image": "/assets/img/project/pro7.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 8,
+            "categories": [
+                5,
+                3,
+                4
+            ],
+            "image": "/assets/img/project/pro8.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        },
+        {
+            "id": 9,
+            "categories": [
+                5,
+                2,
+                4
+            ],
+            "image": "/assets/img/project/pro9.png",
+            "title": "Effective solution For Your Business",
+            "link": "/portfolio-single"
+        }
+    ],
+    "loadMoreText": "load more projects"
+}

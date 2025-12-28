@@ -1,21 +1,51 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useContentData } from '../hooks/useContentData';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { initLegacyScripts } from '../utils/legacyScripts';
 
 const Contact = () => {
+    // Fetch page content
+    const { data: pageData, loading, error } = useContentData('contact');
+
     useEffect(() => {
-        initLegacyScripts();
-    }, []);
+        // Only initialize scripts after data is loaded
+        if (!loading) {
+            initLegacyScripts();
+        }
+    }, [loading]);
+
+    // Show loading spinner while data is being fetched
+    if (loading) {
+        return <LoadingSpinner message="Loading contact info..." />;
+    }
+
+    // Handle error state
+    if (error) {
+        return (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#fff' }}>
+                <h2>Unable to load contact info</h2>
+                <p>{error}</p>
+            </div>
+        );
+    }
+
+    // Extract data from API response
+    const { breadcrumbs, mapUrl, contactSection } = pageData;
+
     return (
         <div className="content-wrapper" style={{ minHeight: '100vh', overflow: 'hidden' }}>
             {/* Start of Breadcrumbs section */}
-            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background="assets/img/bg/bread-bg.png">
+            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background={breadcrumbs.background}>
                 <div className="container">
                     <div className="ori-breadcrumb-content text-center ul-li">
-                        <h1>Contact Us</h1>
+                        <h1>{breadcrumbs.title}</h1>
                         <ul>
-                            <li><Link to="/">home</Link></li>
-                            <li>Contact Us</li>
+                            {breadcrumbs.links.map((link, index) => (
+                                <li key={index}>
+                                    {link.path ? <Link to={link.path}>{link.label}</Link> : link.label}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -29,11 +59,12 @@ const Contact = () => {
             <div className="ori-google-map">
                 <iframe
                     className="map"
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d6209.242755903148!2d-77.04363602434464!3d38.90977276948481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1394992895496"
+                    src={mapUrl}
                     height="865"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
+                    title="Google Map"
                 ></iframe>
             </div>
             {/* End of google map section */}
@@ -45,44 +76,42 @@ const Contact = () => {
                         <div className="row">
                             <div className="col-lg-6">
                                 <div className="ori-contact-form-text-info pera-content">
-                                    <h3>Let’s create something Unforgettable</h3>
-                                    <p>Request your free quote now!</p>
+                                    <h3>{contactSection.title}</h3>
+                                    <p>{contactSection.subtitle}</p>
                                     <div className="ori-contact-form-item-info">
-                                        <div className="ori-contact-info d-flex align-items-center">
-                                            <div className="info-icon d-flex align-items-center justify-content-center">
-                                                <i className="fas fa-phone-alt"></i>
+                                        {contactSection.infoItems.map((item, index) => (
+                                            <div key={index} className="ori-contact-info d-flex align-items-center">
+                                                <div className="info-icon d-flex align-items-center justify-content-center">
+                                                    <i className={item.icon}></i>
+                                                </div>
+                                                <div className="info-text pera-content">
+                                                    <h4>{item.title}</h4>
+                                                    <p>{item.value}</p>
+                                                </div>
                                             </div>
-                                            <div className="info-text pera-content">
-                                                <h4>Phone</h4>
-                                                <p>(+44) 079507 13320</p>
-                                            </div>
-                                        </div>
-                                        <div className="ori-contact-info d-flex align-items-center">
-                                            <div className="info-icon d-flex align-items-center justify-content-center">
-                                                <i className="fas fa-envelope"></i>
-                                            </div>
-                                            <div className="info-text pera-content">
-                                                <h4>Email</h4>
-                                                <p>info@sankofavault.click</p>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                             <div className="col-lg-6">
                                 <div className="ori-contact-form-wrap">
                                     <form action="#" method="get">
-                                        <label>Name *</label>
+                                        <label>{contactSection.form.nameLabel}</label>
                                         <input type="text" name="name" />
-                                        <label>Email *</label>
+
+                                        <label>{contactSection.form.emailLabel}</label>
                                         <input type="text" name="email" placeholder="" />
-                                        <label>Phone Number *</label>
+
+                                        <label>{contactSection.form.phoneLabel}</label>
                                         <input type="text" name="number" placeholder="" />
-                                        <label>Subject *</label>
-                                        <input type="text" name="subject" placeholder="Example (Videography Quote)" />
-                                        <label>Message *</label>
-                                        <textarea name="message" placeholder="Your text here "></textarea>
-                                        <button type="submit">submit now</button>
+
+                                        <label>{contactSection.form.subjectLabel}</label>
+                                        <input type="text" name="subject" placeholder={contactSection.form.subjectPlaceholder} />
+
+                                        <label>{contactSection.form.messageLabel}</label>
+                                        <textarea name="message" placeholder={contactSection.form.messagePlaceholder}></textarea>
+
+                                        <button type="submit">{contactSection.form.buttonText}</button>
                                     </form>
                                 </div>
                             </div>

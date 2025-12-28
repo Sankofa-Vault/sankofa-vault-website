@@ -1,21 +1,51 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useContentData } from '../hooks/useContentData';
+import LoadingSpinner from '../components/LoadingSpinner';
+import TestimonialCarousel from '../components/TestimonialCarousel';
 import { initLegacyScripts } from '../utils/legacyScripts';
 
 const Team = () => {
+    // Fetch page content
+    const { data: pageData, loading, error } = useContentData('team');
+
     useEffect(() => {
-        initLegacyScripts();
-    }, []);
+        // Only initialize scripts after data is loaded
+        if (!loading) {
+            initLegacyScripts();
+        }
+    }, [loading]);
+
+    // Show loading spinner while data is being fetched
+    if (loading) {
+        return <LoadingSpinner message="Loading team members..." />;
+    }
+
+    // Handle error state
+    if (error) {
+        return (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#fff' }}>
+                <h2>Unable to load team content</h2>
+                <p>{error}</p>
+            </div>
+        );
+    }
+
+    // Extract data from API response
+    const { breadcrumbs, teamMembers, testimonialSection } = pageData;
     return (
         <div className="content-wrapper" style={{ minHeight: '100vh', overflow: 'hidden' }}>
             {/* Start of Breadcrumbs section */}
-            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background="assets/img/bg/bread-bg.png">
+            <section id="ori-breadcrumbs" className="ori-breadcrumbs-section position-relative" data-background={breadcrumbs.background}>
                 <div className="container">
                     <div className="ori-breadcrumb-content text-center ul-li">
-                        <h1>Team</h1>
+                        <h1>{breadcrumbs.title}</h1>
                         <ul>
-                            <li><Link to="/">home</Link></li>
-                            <li>Team members</li>
+                            {breadcrumbs.links.map((link, index) => (
+                                <li key={index}>
+                                    {link.path ? <Link to={link.path}>{link.label}</Link> : link.label}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -30,110 +60,24 @@ const Team = () => {
                 <div className="container">
                     <div className="ori-team-post-feed-content">
                         <div className="row">
-                            <div className="row">
-                                <div className="col-lg-4">
+                            {teamMembers.map((member, index) => (
+                                <div key={index} className="col-lg-4">
                                     <div className="ori-team-inner-item position-relative">
                                         <div className="ori-team-img">
-                                            <img src="assets/img/team/tm1.png" alt="" />
+                                            <img src={member.image} alt={member.name} />
                                         </div>
                                         <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Adu Samuel</Link></h3>
-                                            <span>CEO & MULTIFACETED CREATIVE PROFESSIONAL</span>
+                                            <h3><Link to={member.link}>{member.name}</Link></h3>
+                                            <span>{member.role}</span>
                                         </div>
                                         <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-linkedin-in"></i></a>
+                                            {member.socials.map((social, idx) => (
+                                                <a key={idx} href={social.url}><i className={social.icon}></i></a>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-4">
-                                    <div className="ori-team-inner-item position-relative">
-                                        <div className="ori-team-img">
-                                            <img src="assets/img/team/tm2.png" alt="" />
-                                        </div>
-                                        <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Emmanuel Kuma</Link></h3>
-                                            <span>GRAPHIC DESIGNER</span>
-                                        </div>
-                                        <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="ori-team-inner-item position-relative">
-                                        <div className="ori-team-img">
-                                            <img src="assets/img/team/tm3.png" alt="" />
-                                        </div>
-                                        <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Geroge</Link></h3>
-                                            <span>GRAPHIC DESIGNER</span>
-                                        </div>
-                                        <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="ori-team-inner-item position-relative">
-                                        <div className="ori-team-img">
-                                            <img src="assets/img/team/tm3.png" alt="" />
-                                        </div>
-                                        <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Emmanuel Addo</Link></h3>
-                                            <span>GRAPHIC DESIGNER</span>
-                                        </div>
-                                        <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="ori-team-inner-item position-relative">
-                                        <div className="ori-team-img">
-                                            <img src="assets/img/team/tm4.png" alt="" />
-                                        </div>
-                                        <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Emmanuel Arthur</Link></h3>
-                                            <span>GRAPHIC DESIGNER</span>
-                                        </div>
-                                        <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="ori-team-inner-item position-relative">
-                                        <div className="ori-team-img">
-                                            <img src="assets/img/team/tm5.png" alt="" />
-                                        </div>
-                                        <div className="ori-team-text text-center position-absolute">
-                                            <h3><Link to="/team-single">Sameem Raqueeb&nbsp;</Link></h3>
-                                            <span>GRAPHIC DESIGNER</span>
-                                        </div>
-                                        <div className="ori-team-social text-center position-absolute">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -146,40 +90,14 @@ const Team = () => {
             {/* Start of Testimonial section */}
             <section id="ori-testimonial-1" className="ori-testimonial-section-1 position-relative">
                 <div className="ori-vector-bg position-absolute">
-                    <img src="assets/img/vector/tst-vector1.png" alt="" />
+                    <img src={testimonialSection.backgroundVector} alt="" />
                 </div>
                 <div className="container">
                     <div className="ori-testimonial-content-1 position-relative">
                         <div className="ori-testimonial-title text-center text-uppercase">
-                            <h3>What our Client say</h3>
+                            <h3>{testimonialSection.title}</h3>
                         </div>
-                        <div className="ori-testimonial-slider-1">
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>“They brought fresh ideas to the table and executed them flawlessly. We finally feel like we're reaching the right audience.”</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>“They completely reimagined our website and branding — and the results speak for themselves. We’ve seen a huge boost in engagement and sales.”</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ori-testimonial-item-area">
-                                <div className="ori-testimonial-item-1">
-                                    <div className="ori-testimonial-text text-center pera-content">
-                                        <p>“Our campaigns have never performed better. The content was sharp, on-brand, and delivered results beyond our targets.”</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel_nav">
-                            <button type="button" className="testi-left_arrow"><img src="assets/img/vector/prev.png" alt="" /></button>
-                            <button type="button" className="testi-right_arrow"><img src="assets/img/vector/next.png" alt="" /></button>
-                        </div>
+                        <TestimonialCarousel testimonials={testimonialSection.testimonials} />
                     </div>
                 </div>
                 <div className="line_animation">
