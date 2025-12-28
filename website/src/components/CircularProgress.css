@@ -1,0 +1,27 @@
+.circular-progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.circular-progress {
+    display: block;
+}
+
+.circular-progress-bar {
+    transition: stroke-dashoffset 1.5s ease-out;
+}
+
+.circular-progress-text {
+    font-size: 36px;
+    font-weight: 700;
+    fill: #fff;
+}
+
+.circular-progress-label {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+}

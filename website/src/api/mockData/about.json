@@ -1,0 +1,151 @@
+{
+    "breadcrumbs": {
+        "title": "About Us",
+        "background": "/assets/img/bg/bread-bg.png",
+        "links": [
+            {
+                "label": "home",
+                "path": "/"
+            },
+            {
+                "label": "About Us",
+                "path": null
+            }
+        ]
+    },
+    "hero": {
+        "subtitle": "About us",
+        "title": "Bridging the Past, Present & Future through Multimedia & Technology",
+        "description": "Sankofa Vault is a creative initiative that blends cultural heritage with modern technology to inspire, educate, and empower. Rooted in the Sankofa principle—looking back to retrieve what is valuable—the project uses multimedia tools such as digital storytelling and video to preserve tradition while embracing innovation. It seeks to amplify voices, celebrate history, and build a legacy for future generations. More than a brand, Sankofa Vault is a movement inviting creatives to use today's technology to tell timeless stories and shape a meaningful future.",
+        "image": "/assets/img/about/play-bg.png",
+        "videoId": "EmQDa99KC0c"
+    },
+    "stats": [
+        {
+            "value": 16,
+            "suffix": "+",
+            "label": "YEARS EXPERIENCE"
+        },
+        {
+            "value": 800,
+            "suffix": "+",
+            "label": "PROJECT FINISHED"
+        },
+        {
+            "value": 3000,
+            "suffix": "+",
+            "label": "social media RECOGNITION"
+        },
+        {
+            "value": 500,
+            "suffix": "+",
+            "label": "HAPPY CLIENTS"
+        }
+    ],
+    "skills": {
+        "subtitle": "why choose us",
+        "title": "Unlock Revenue Growth for Your Business",
+        "buttonText": "See Our Service",
+        "buttonLink": "/service",
+        "items": [
+            {
+                "value": 85,
+                "label": "Frontend"
+            },
+            {
+                "value": 90,
+                "label": "Backend"
+            },
+            {
+                "value": 94,
+                "label": "Mobile Development"
+            },
+            {
+                "value": 92,
+                "label": "Web Development"
+            }
+        ]
+    },
+    "team": {
+        "title": "Meet our team of professional",
+        "buttonText": "all Team Member",
+        "buttonLink": "/team",
+        "members": [
+            {
+                "name": "Adu Samuel",
+                "role": "CEO & MULTIFACETED CREATIVE PROFESSIONAL",
+                "image": "/assets/img/team/tm1.png",
+                "link": "/team-single",
+                "social": [
+                    {
+                        "icon": "fab fa-facebook-f",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-twitter",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-instagram",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-linkedin-in",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "name": "Emmanuel Kuma",
+                "role": "GRAPHIC DESIGNER",
+                "image": "/assets/img/team/tm2.png",
+                "link": "/team-single",
+                "social": [
+                    {
+                        "icon": "fab fa-facebook-f",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-twitter",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-instagram",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-linkedin-in",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "name": "Emmanuel Addo",
+                "role": "CYBERSECURITY SPECIALIST",
+                "image": "/assets/img/team/tm3.png",
+                "link": "/team-single",
+                "social": [
+                    {
+                        "icon": "fab fa-facebook-f",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-twitter",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-instagram",
+                        "url": "#"
+                    },
+                    {
+                        "icon": "fab fa-youtube",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    "sponsorSection": {
+        "title": "Trusted by"
+    }
+}
