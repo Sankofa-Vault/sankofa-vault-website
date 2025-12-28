@@ -1,51 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCommonData } from '../hooks/useContentData';
+import LoadingSpinner from './LoadingSpinner';
 
 const Header = () => {
+  const { data, loading, error } = useCommonData();
+
+  if (loading) return <LoadingSpinner message="Loading header..." />;
+  if (error) return null; // Gracefully fail - header will be empty
+
+  const { header } = data;
+
   return (
     <>
       <header id="ori-header" className="ori-header-section header-style-one">
         <div className="ori-header-content-area">
           <div className="ori-header-content d-flex align-items-center justify-content-between">
             <div className="brand-logo">
-              <Link to="/"><img src="assets/img/logo/logo1.png" alt="" /></Link>
+              <Link to="/"><img src={header.logo} alt="Sankofa Vault" /></Link>
             </div>
             <div className="ori-main-navigation-area">
               <nav className="ori-main-navigation clearfix ul-li">
                 <ul id="main-nav" className="nav navbar-nav clearfix">
-                  <li className="dropdown ori-megamenu">
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li className="">
-                    <Link to="/service">Services</Link>
-                  </li>
-                  <li><Link to="/about">About US</Link></li>
-                  <li className="!">
-                    <Link to="/mission">MISSION</Link>
-                    <ul className="dropdown-menu clearfix">
-                      <li><Link to="/service">Services</Link></li>
-                      <li className="dropdown">
-                        <Link to="/service-single">Services Details</Link>
-                        {/* Sub-menu items for services details can go here if needed */}
-                      </li>
-                      <li><Link to="/team">Team Page</Link></li>
-                      <li><Link to="/team-single">Team Details</Link></li>
-                      <li><Link to="/faq">FAQ Page</Link></li>
-                      <li><Link to="/pricing">Pricing Page</Link></li>
-                      <li><Link to="/contact">Contact Page</Link></li>
-                      <li><Link to="/mission">Mission Page</Link></li>
-                    </ul>
-                  </li>
-                  <li className="">
-                    <Link className="" to="/portfolio">PORTFOLIO</Link>
-                  </li>
-                  <li className="!">
-                    <Link to="/contact">contact us</Link>
-                    <ul className="dropdown-menu clearfix">
-                      <li><Link to="/portfolio">Portfolio </Link></li>
-                      <li><Link to="/portfolio-single">Portfolio Details</Link></li>
-                    </ul>
-                  </li>
+                  {header.navigation.map((item, index) => (
+                    <li key={index} className={item.dropdown ? '!' : ''}>
+                      <Link to={item.path}>{item.label}</Link>
+                      {item.dropdown && (
+                        <ul className="dropdown-menu clearfix">
+                          {item.dropdown.map((subItem, subIndex) => (
+                            <li key={subIndex}>
+                              <Link to={subItem.path}>{subItem.label}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
                 </ul>
               </nav>
             </div>
@@ -69,26 +59,15 @@ const Header = () => {
                   <i className="fal fa-times"></i>
                 </div>
                 <div className="m-brand-logo">
-                  <Link to="/"><img src="assets/img/logo/logo1.png" alt="" /></Link>
+                  <Link to="/"><img src={header.logo} alt="Sankofa Vault" /></Link>
                 </div>
                 <nav className="mobile-main-navigation clearfix ul-li">
                   <ul id="m-main-nav" className="nav navbar-nav clearfix">
-                    <li className="">
-                      <Link to="/">Home</Link>
-                    </li>
-                    <li><Link to="/about">About us</Link></li>
-                    <li className="">
-                      <Link to="/service">services</Link>
-                    </li>
-                    <li className="">
-                      <Link className="" to="/mission">Mission</Link>
-                    </li>
-                    <li className="">
-                      <Link to="/portfolio">Portfolio</Link>
-                    </li>
-                    <li className="">
-                      <Link to="/contact">contact us</Link>
-                    </li>
+                    {header.mobileNavigation.map((item, index) => (
+                      <li key={index}>
+                        <Link to={item.path}>{item.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </nav>
               </div>
@@ -138,19 +117,20 @@ const Header = () => {
               <div className="sidebar-info-contents headline pera-content">
                 <div className="content-inner">
                   <div className="logo">
-                    <Link to="/"><img src="assets/img/logo/logo1.png" alt="" /></Link>
+                    <Link to="/"><img src={header.logo} alt="Sankofa Vault" /></Link>
                   </div>
                   <div className="content-box">
-                    <h5>About Us</h5>
-                    <p className="text">Sankofa Vault is a creative initiative that blends cultural heritage with modern technology to inspire, educate, and empower. Rooted in the Sankofa principle—looking back to retrieve what is valuable—the project uses multimedia tools such as digital storytelling and video to preserve tradition while embracing innovation. It seeks to amplify voices, celebrate history, and build a legacy for future generations. More than a brand, Sankofa Moments is a movement inviting creatives to use today’s technology to tell timeless stories and shape a meaningful future.</p>
+                    <h5>{header.sidebar.title}</h5>
+                    <p className="text">{header.sidebar.description}</p>
                   </div>
                   <div className="content-box">
                     <h5>Socials</h5>
                     <ul className="social-box">
-                      <li><a href="https://www.facebook.com/" className="fab fa-facebook-f"></a></li>
-                      <li><a href="https://www.twitter.com/" className="fab fa-instagram"></a></li>
-                      <li><a href="https://dribbble.com/" className="fab fa-tiktok"></a></li>
-                      <li><a href="https://www.linkedin.com/" className="fab fa-youtube"></a></li>
+                      {header.sidebar.socials.map((social, index) => (
+                        <li key={index}>
+                          <a href={social.url} className={social.icon}></a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
