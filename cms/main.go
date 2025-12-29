@@ -23,8 +23,22 @@ func main() {
 	r := gin.Default()
 
 	// CORS Setup
+	allowedOrigins := []string{
+		"http://localhost:5173",  // Website dev server
+		"http://localhost:3000",  // Admin dev server
+		"http://localhost:5174",  // Alternate dev server
+	}
+
+	// Add production Cloudflare Pages URLs from environment
+	if websiteURL := os.Getenv("WEBSITE_URL"); websiteURL != "" {
+		allowedOrigins = append(allowedOrigins, websiteURL)
+	}
+	if adminURL := os.Getenv("ADMIN_URL"); adminURL != "" {
+		allowedOrigins = append(allowedOrigins, adminURL)
+	}
+
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000"}, // React Dev Servers
+		AllowedOrigins:   allowedOrigins,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Authorization", "Content-Type"},
 		AllowCredentials: true,

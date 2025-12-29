@@ -1,0 +1,20 @@
+# Ignore compiled binary
+cms-backend
+
+# Ignore environment files (use Koyeb's env vars instead)
+.env
+.env.*
+
+# Ignore git
+.git
+.gitignore
+
+# Ignore scripts
+*.sh
+
+# Ignore IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
