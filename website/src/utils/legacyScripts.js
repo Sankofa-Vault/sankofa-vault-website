@@ -71,6 +71,22 @@ export const initMainSlider = () => {
 // - Marquee.jsx (replaces jQuery Marquee)
 
 export const initLegacyScripts = () => {
+    // Safety check: ensure jQuery is loaded before initializing plugins
+    if (!window.jQuery) {
+        console.warn('jQuery not loaded yet, deferring legacy scripts initialization');
+        // Retry after a short delay
+        setTimeout(() => {
+            if (window.jQuery) {
+                initSlickSlider();
+                initMainSlider();
+                initWow();
+            } else {
+                console.error('jQuery failed to load - legacy scripts disabled');
+            }
+        }, 100);
+        return;
+    }
+
     initSlickSlider();
     initMainSlider();
     initWow();

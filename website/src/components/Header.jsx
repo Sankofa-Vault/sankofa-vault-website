@@ -8,6 +8,7 @@ const Header = () => {
 
   if (loading) return <LoadingSpinner message="Loading header..." />;
   if (error) return null; // Gracefully fail - header will be empty
+  if (!data) return null; // Guard against undefined data
 
   const { header } = data;
 

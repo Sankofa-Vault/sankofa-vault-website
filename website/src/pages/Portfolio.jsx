@@ -41,6 +41,9 @@ const Portfolio = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData) return null;
+
     // Extract data from API response
     const { breadcrumbs, filters, portfolioItems, loadMoreText } = pageData;
 

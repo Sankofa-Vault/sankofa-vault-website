@@ -28,13 +28,13 @@ Last change:    00/00/00
 				this.scrollTop();
 				this.counterUp();
 				this.TwinMax();
-				this.MainSLider();
+				// this.MainSLider(); // DEPRECATED: Hero slider now initialized by React (legacyScripts.js)
 				this.SponsorSlider1();
 				this.SponsorSlider2();
 				this.TestimonialSlider1();
 				this.BlogFeedSlider();
 				this.MainBanner2();
-				this.TextScroll();
+				// this.TextScroll(); // DEPRECATED: Replaced by React Marquee component
 				this.SreenshootSlider();
 				this.bannerParalax();
 				this.BlogSlide();
@@ -54,9 +54,11 @@ Last change:    00/00/00
 				
 			},
 			preloader: function (){
-				jQuery(window).on('load', function(){
-					jQuery('#preloader').fadeOut('slow',function(){jQuery(this).remove();});
-				})
+				// DEPRECATED: Preloader is now handled by React AppPreloader component in App.jsx
+				// This prevents double-removal attempts and race conditions between jQuery and React
+				// jQuery(window).on('load', function(){
+				// 	jQuery('#preloader').fadeOut('slow',function(){jQuery(this).remove();});
+				// })
 			},
 			BackgroundImage: function (){
 				$('[data-background]').each(function() {
@@ -244,20 +246,24 @@ Last change:    00/00/00
 				$("a, button, .zoom-cursor, .trigger-close, .trigger-plus").on("mouseleave", defaultCursor);
 			},
 			MainSLider: function (){
-				$('.ori-slider-wrap-1').slick({
-					arrow: false,
-					dots: true,
-					infinite: true,
-					slidesToShow: 1,
-					fade: true,
-					autoplay: false,
-					slidesToScroll: 1,
-					customPaging : function(slider, i) {
-						var thumb = $(slider.$slides[i]).data();
+				// DEPRECATED: Hero slider initialization moved to React (website/src/utils/legacyScripts.js)
+				// This prevents race condition where script.js runs before React renders the Home component
+				// The slider is now initialized via Home.jsx's useEffect after DOM elements exist
 
-						return '0' + (i + 1);
-					},
-				});
+				// Original implementation (commented for reference):
+				// $('.ori-slider-wrap-1').slick({
+				// 	arrow: false,
+				// 	dots: true,
+				// 	infinite: true,
+				// 	slidesToShow: 1,
+				// 	fade: true,
+				// 	autoplay: false,
+				// 	slidesToScroll: 1,
+				// 	customPaging : function(slider, i) {
+				// 		var thumb = $(slider.$slides[i]).data();
+				// 		return '0' + (i + 1);
+				// 	},
+				// });
 			},
 			SponsorSlider1: function (){
 				$('.ori-sponsor-slider').slick({
@@ -583,42 +589,12 @@ Last change:    00/00/00
 				}} 
 			},
 			TextScroll: function (){
-				$('.ori-text-scroll-item-1').marquee({
-					speed: 50,
-					gap: 20,
-					delayBeforeStart: 0,
-					direction: 'left',
-					duplicated: true,
-					pauseOnHover: true,
-					startVisible:true,
-				});
-				$('.ori-text-scroll-item-2').marquee({
-					speed: 50,
-					gap: 20,
-					delayBeforeStart: 0,
-					direction: 'right',
-					duplicated: true,
-					pauseOnHover: true,
-					startVisible:true,
-				});
-				$('.ori-integration-sroll').marquee({
-					speed: 50,
-					gap: 20,
-					delayBeforeStart: 0,
-					direction: 'right',
-					duplicated: true,
-					pauseOnHover: true,
-					startVisible:true,
-				});
-				$('.ori-testimonial-scroll').marquee({
-					speed: 50,
-					gap: 20,
-					delayBeforeStart: 0,
-					direction: 'right',
-					duplicated: true,
-					pauseOnHover: true,
-					startVisible:true,
-				});
+				// DEPRECATED: TextScroll is now handled by React Marquee component (src/components/Marquee.jsx)
+				// This prevents jQuery marquee plugin errors
+				// $('.ori-text-scroll-item-1').marquee({...});
+				// $('.ori-text-scroll-item-2').marquee({...});
+				// $('.ori-integration-sroll').marquee({...});
+				// $('.ori-testimonial-scroll').marquee({...});
 			},
 			SreenshootSlider: function (){
 				if ($('.ori-appScreenshotCarousel-container').length) {

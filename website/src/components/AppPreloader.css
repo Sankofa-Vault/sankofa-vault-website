@@ -1,0 +1,65 @@
+/* Full-screen React preloader */
+.app-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.app-preloader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Logo styling - Original large animated SVG */
+.preloader-logo {
+    width: 450px;
+    height: 450px;
+    opacity: 0;
+    animation: fadeInLogo 0.8s ease forwards;
+}
+
+@keyframes fadeInLogo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.app-preloader .loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 116, 37, 0.1);
+    border-top-color: #FF7425;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.app-preloader .loading-message {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}

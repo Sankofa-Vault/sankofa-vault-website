@@ -31,6 +31,9 @@ const Team = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData) return null;
+
     // Extract data from API response
     const { breadcrumbs, teamMembers, testimonialSection } = pageData;
     return (

@@ -20,21 +20,36 @@
 </head>
 
 <body class="ori-digital-studio">
-  <div id="preloader"></div>
   <div class="up">
     <a href="#" class="scrollup text-center"><i class="fas fa-chevron-up"></i></a>
   </div>
   <div class="cursor"></div>
 
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
 
-  <!-- Legacy Scripts (only keeping what's still needed) -->
+  <!-- Legacy Scripts - MUST load BEFORE React module -->
+  <!-- Core Dependencies -->
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
+
+  <!-- jQuery Plugin Dependencies (in order of dependency chain) -->
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <script src="assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/js/jquery.filterizr.js"></script>
+  <script src="assets/js/jarallax.js"></script>
+  <script src="assets/js/twin.js"></script>
+
+  <!-- UI Libraries -->
   <script src="assets/js/slick.js"></script>
   <script src="assets/js/wow.min.js"></script>
-  <script src="assets/js/script.js"></script>
+
+  <!-- Main Legacy Script with defer to prevent early execution -->
+  <script src="assets/js/script.js" defer></script>
+
+  <!-- React Module - LOADS LAST to ensure jQuery is available -->
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>

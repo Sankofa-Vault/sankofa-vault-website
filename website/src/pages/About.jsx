@@ -36,6 +36,9 @@ const About = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData || !commonData) return null;
+
     // Extract data from API response
     const { breadcrumbs, hero, stats, skills, team, sponsorSection } = pageData;
     const { sponsors } = commonData;

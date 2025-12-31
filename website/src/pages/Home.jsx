@@ -69,6 +69,9 @@ const Home = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData || !commonData) return null;
+
     // Extract data from API response
     const { hero, services, about, servicesTab, marquee } = pageData;
     const { sponsors } = commonData;

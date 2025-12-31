@@ -8,6 +8,7 @@ const Footer = () => {
 
     if (loading) return <LoadingSpinner message="Loading footer..." />;
     if (error) return null; // Gracefully fail
+    if (!data) return null; // Guard against undefined data
 
     const { footer } = data;
 

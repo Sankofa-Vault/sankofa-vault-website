@@ -35,6 +35,9 @@ const Mission = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData || !commonData) return null;
+
     // Extract data from API response
     const { breadcrumbs, philosophy, accordion, vision, sponsorSection } = pageData;
     const { sponsors } = commonData;

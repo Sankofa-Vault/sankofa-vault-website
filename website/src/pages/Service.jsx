@@ -30,6 +30,9 @@ const Service = () => {
         );
     }
 
+    // Guard against undefined data
+    if (!pageData) return null;
+
     // Extract data from API response
     const { breadcrumbs, services, serviceInner, achievement } = pageData;
     return (
