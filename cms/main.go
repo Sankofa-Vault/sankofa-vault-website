@@ -59,7 +59,20 @@ func main() {
 			authGroup.POST("/login", auth.Login)
 		}
 
-		// Content Routes (Protected)
+		// Public Routes (No Auth Required - for website)
+		pagesGroup := api.Group("/pages")
+		{
+			pagesGroup.GET("/:pageId", content.GetContent)
+		}
+
+		// Public common content endpoint (for Header/Footer)
+		api.GET("/common", func(c *gin.Context) {
+			// Reuse GetContent handler by setting pageId to "common"
+			c.Params = append(c.Params, gin.Param{Key: "pageId", Value: "common"})
+			content.GetContent(c)
+		})
+
+		// Content Routes (Protected - for admin dashboard)
 		contentGroup := api.Group("/content")
 		contentGroup.Use(auth.AuthMiddleware())
 		{
