@@ -49,7 +49,11 @@ const Home = () => {
 
             return () => {
                 clearTimeout(timer);
-                // Note: Swiper handles its own cleanup, no manual jQuery cleanup needed
+
+                // Cleanup Slick slider on unmount/refresh to prevent conflicts
+                if (window.jQuery && window.jQuery('.ori-slider-wrap-1').hasClass('slick-initialized')) {
+                    window.jQuery('.ori-slider-wrap-1').slick('unslick');
+                }
             };
         }
     }, [pageLoading, commonLoading]);

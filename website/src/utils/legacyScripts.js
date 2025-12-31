@@ -49,20 +49,24 @@ export const initWow = () => {
 export const initMainSlider = () => {
     if (!window.jQuery) return;
     const $ = window.jQuery;
-    if ($('.ori-slider-wrap-1').length && !$('.ori-slider-wrap-1').hasClass('slick-initialized')) {
-        $('.ori-slider-wrap-1').slick({
-            arrow: false,
-            dots: true,
-            infinite: true,
-            slidesToShow: 1,
-            fade: true,
-            autoplay: false,
-            slidesToScroll: 1,
-            customPaging: function (slider, i) {
-                return '0' + (i + 1);
-            },
-        });
-    }
+
+    // Small delay to ensure DOM is fully rendered (especially important on refresh with cached data)
+    setTimeout(() => {
+        if ($('.ori-slider-wrap-1').length && !$('.ori-slider-wrap-1').hasClass('slick-initialized')) {
+            $('.ori-slider-wrap-1').slick({
+                arrow: false,
+                dots: true,
+                infinite: true,
+                slidesToShow: 1,
+                fade: true,
+                autoplay: false,
+                slidesToScroll: 1,
+                customPaging: function (slider, i) {
+                    return '0' + (i + 1);
+                },
+            });
+        }
+    }, 100); // 100ms delay to ensure DOM is painted
 };
 
 // Note: initKnob and initTextScroll have been removed
