@@ -25,9 +25,10 @@ func main() {
 	// CORS Setup
 	allowedOrigins := []string{
 		// Development URLs
-		"http://localhost:5173",  // Website dev server
-		"http://localhost:3000",  // Admin dev server
-		"http://localhost:5174",  // Alternate dev server
+		"http://localhost:5173", // Website dev server
+		"http://localhost:3000", // Admin dev server
+		"http://localhost:5174", // Alternate dev server
+		"http://localhost:4173", // Preview dev server
 
 		// Production Website URLs
 		"https://sankofa-vault-website.pages.dev", // Cloudflare Pages
@@ -35,9 +36,9 @@ func main() {
 		"http://sankofavault.click",               // HTTP variant
 
 		// Production Admin Console URLs
-		"https://sankofa-vault-admin.pages.dev",        // Cloudflare Pages
-		"https://landing-console.sankofavault.click",   // Custom domain
-		"http://landing-console.sankofavault.click",    // HTTP variant
+		"https://sankofa-vault-admin.pages.dev",      // Cloudflare Pages
+		"https://landing-console.sankofavault.click", // Custom domain
+		"http://landing-console.sankofavault.click",  // HTTP variant
 	}
 
 	// Add additional URLs from environment variables (if needed)
