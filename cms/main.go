@@ -24,12 +24,23 @@ func main() {
 
 	// CORS Setup
 	allowedOrigins := []string{
+		// Development URLs
 		"http://localhost:5173",  // Website dev server
 		"http://localhost:3000",  // Admin dev server
 		"http://localhost:5174",  // Alternate dev server
+
+		// Production Website URLs
+		"https://sankofa-vault-website.pages.dev", // Cloudflare Pages
+		"https://sankofavault.click",              // Custom domain
+		"http://sankofavault.click",               // HTTP variant
+
+		// Production Admin Console URLs
+		"https://sankofa-vault-admin.pages.dev",        // Cloudflare Pages
+		"https://landing-console.sankofavault.click",   // Custom domain
+		"http://landing-console.sankofavault.click",    // HTTP variant
 	}
 
-	// Add production Cloudflare Pages URLs from environment
+	// Add additional URLs from environment variables (if needed)
 	if websiteURL := os.Getenv("WEBSITE_URL"); websiteURL != "" {
 		allowedOrigins = append(allowedOrigins, websiteURL)
 	}
