@@ -4,8 +4,12 @@
  * Supports both mock data (development) and real CMS (production)
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK !== 'false';
+
+// Fallback logic: If we're in production (USE_MOCK_DATA=false) and VITE_API_URL is not set,
+// use the Koyeb API URL instead of relative '/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+    (USE_MOCK_DATA ? '/api' : 'https://crude-roze-sankofa-vault-dd15f85c.koyeb.app/api');
 
 // Debug logging - remove after fixing
 console.log('[API Service] Configuration:', {
