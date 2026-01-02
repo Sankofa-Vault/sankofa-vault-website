@@ -7,6 +7,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK !== 'false';
 
+// Debug logging - remove after fixing
+console.log('[API Service] Configuration:', {
+    API_BASE_URL,
+    USE_MOCK_DATA,
+    VITE_API_URL: import.meta.env.VITE_API_URL,
+    VITE_USE_MOCK: import.meta.env.VITE_USE_MOCK
+});
+
 /**
  * Simulates network delay for realistic mock API behavior
  */
