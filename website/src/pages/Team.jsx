@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useContentData } from '../hooks/useContentData';
+import { usePreloader } from '../contexts/PreloaderContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TestimonialCarousel from '../components/TestimonialCarousel';
 import { initLegacyScripts } from '../utils/legacyScripts';
@@ -8,13 +9,17 @@ import { initLegacyScripts } from '../utils/legacyScripts';
 const Team = () => {
     // Fetch page content
     const { data: pageData, loading, error } = useContentData('team');
+    const { isAppLoading } = usePreloader();
 
     useEffect(() => {
         // Only initialize scripts after data is loaded
-        if (!loading) {
+        if (!loading && !isAppLoading) {
             initLegacyScripts();
         }
-    }, [loading]);
+    }, [loading, isAppLoading]);
+
+    // Wait for app preloader
+    if (isAppLoading) return null;
 
     // Show loading spinner while data is being fetched
     if (loading) {

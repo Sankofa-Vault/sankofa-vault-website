@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCommonData } from '../hooks/useContentData';
-import LoadingSpinner from './LoadingSpinner';
+import { usePreloader } from '../contexts/PreloaderContext';
 
 const Header = () => {
-  const { data, loading, error } = useCommonData();
+  const { isAppLoading, commonData, commonError } = usePreloader();
 
-  if (loading) return <LoadingSpinner message="Loading header..." />;
-  if (error) return null; // Gracefully fail - header will be empty
-  if (!data) return null; // Guard against undefined data
+  if (isAppLoading) return null; // Wait for app preloader
+  if (commonError) return null; // Gracefully fail - header will be empty
+  if (!commonData) return null; // Guard against undefined data
 
-  const { header } = data;
+  const { header } = commonData;
 
   return (
     <>
@@ -91,22 +90,7 @@ const Header = () => {
 
       {/* Sidebar sidebar Item */}
       <div className="xs-sidebar-group info-group">
-        <div className="xs-overlay xs-bg-black">
-          <div className="row loader-area">
-            <div className="col-3 preloader-wrap">
-              <div className="loader-bg"></div>
-            </div>
-            <div className="col-3 preloader-wrap">
-              <div className="loader-bg"></div>
-            </div>
-            <div className="col-3 preloader-wrap">
-              <div className="loader-bg"></div>
-            </div>
-            <div className="col-3 preloader-wrap">
-              <div className="loader-bg"></div>
-            </div>
-          </div>
-        </div>
+        <div className="xs-overlay xs-bg-black"></div>
         <div className="xs-sidebar-widget">
           <div className="sidebar-widget-container">
             <div className="widget-heading">

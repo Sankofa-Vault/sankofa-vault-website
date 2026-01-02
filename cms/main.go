@@ -33,12 +33,14 @@ func main() {
 		// Production Website URLs
 		"https://sankofa-vault-website.pages.dev", // Cloudflare Pages
 		"https://sankofavault.click",              // Custom domain
+		"https://www.sankofavault.click",          // Custom domain
 		"http://sankofavault.click",               // HTTP variant
 
 		// Production Admin Console URLs
-		"https://sankofa-vault-admin.pages.dev",      // Cloudflare Pages
-		"https://landing-console.sankofavault.click", // Custom domain
-		"http://landing-console.sankofavault.click",  // HTTP variant
+		"https://sankofa-vault-admin.pages.dev",          // Cloudflare Pages
+		"https://www.landing-console.sankofavault.click", // Custom domain
+		"https://landing-console.sankofavault.click",     // Custom domain
+		"http://landing-console.sankofavault.click",      // HTTP variant
 	}
 
 	// Add additional URLs from environment variables (if needed)

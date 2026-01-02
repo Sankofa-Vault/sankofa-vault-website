@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { initLegacyScripts } from '../utils/legacyScripts';
-import { useContentData, useCommonData } from '../hooks/useContentData';
+import { useContentData } from '../hooks/useContentData';
+import { usePreloader } from '../contexts/PreloaderContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SponsorCarousel from '../components/SponsorCarousel';
 import VideoModal from '../components/VideoModal';
@@ -11,17 +12,20 @@ import VideoModal from '../components/VideoModal';
 const Mission = () => {
     // Fetch page content and common data from API
     const { data: pageData, loading: pageLoading, error: pageError } = useContentData('mission');
-    const { data: commonData, loading: commonLoading } = useCommonData();
+    const { isAppLoading, commonData } = usePreloader();
 
     useEffect(() => {
         // Only initialize scripts after data is loaded
-        if (!pageLoading && !commonLoading) {
+        if (!pageLoading && !isAppLoading) {
             initLegacyScripts();
         }
-    }, [pageLoading, commonLoading]);
+    }, [pageLoading, isAppLoading]);
 
-    // Show loading spinner while data is being fetched
-    if (pageLoading || commonLoading) {
+    // Wait for app preloader
+    if (isAppLoading) return null;
+
+    // Show loading spinner while page data is being fetched
+    if (pageLoading) {
         return <LoadingSpinner message="Loading page content..." />;
     }
 

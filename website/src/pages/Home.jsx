@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { initLegacyScripts } from '../utils/legacyScripts';
-import { useContentData, useCommonData } from '../hooks/useContentData';
+import { useContentData } from '../hooks/useContentData';
+import { usePreloader } from '../contexts/PreloaderContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Marquee from '../components/Marquee';
 import SponsorCarousel from '../components/SponsorCarousel';
@@ -23,11 +24,11 @@ const Home = () => {
 
     // Fetch page content and common data from API
     const { data: pageData, loading: pageLoading, error: pageError } = useContentData('home');
-    const { data: commonData, loading: commonLoading } = useCommonData();
+    const { isAppLoading, commonData } = usePreloader();
 
     useEffect(() => {
         // Only initialize scripts after data is loaded
-        if (!pageLoading && !commonLoading) {
+        if (!pageLoading && !isAppLoading) {
             initLegacyScripts();
 
             // Trigger resize and scroll event to force plugins (WOW, Slick) to recalculate
@@ -56,10 +57,13 @@ const Home = () => {
                 }
             };
         }
-    }, [pageLoading, commonLoading]);
+    }, [pageLoading, isAppLoading]);
 
-    // Show loading spinner while data is being fetched
-    if (pageLoading || commonLoading) {
+    // Wait for app preloader
+    if (isAppLoading) return null;
+
+    // Show loading spinner while page data is being fetched
+    if (pageLoading) {
         return <LoadingSpinner message="Loading page content..." />;
     }
 
@@ -77,7 +81,7 @@ const Home = () => {
     if (!pageData || !commonData) return null;
 
     // Extract data from API response
-    const { hero, services, about, servicesTab, marquee } = pageData;
+    const { hero, services, marquee } = pageData;
     const { sponsors } = commonData;
 
     return (

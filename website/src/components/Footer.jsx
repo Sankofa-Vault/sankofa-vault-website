@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCommonData } from '../hooks/useContentData';
-import LoadingSpinner from './LoadingSpinner';
+import { usePreloader } from '../contexts/PreloaderContext';
 
 const Footer = () => {
-    const { data, loading, error } = useCommonData();
+    const { isAppLoading, commonData, commonError } = usePreloader();
 
-    if (loading) return <LoadingSpinner message="Loading footer..." />;
-    if (error) return null; // Gracefully fail
-    if (!data) return null; // Guard against undefined data
+    if (isAppLoading) return null; // Wait for app preloader
+    if (commonError) return null; // Gracefully fail
+    if (!commonData) return null; // Guard against undefined data
 
-    const { footer } = data;
+    const { footer } = commonData;
 
     return (
         <footer id="ori-footer" className="ori-footer-section footer-style-one">
